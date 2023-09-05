@@ -1,5 +1,4 @@
 "use client";
-import styles from './page.module.css'
 import { useState, useEffect } from "react";
 
 function ListItem(props) {
@@ -13,12 +12,12 @@ function ListItem(props) {
   }, [props.value])
 
   return(
-    <li onClick={() => setEdit(true)}>
-      {
-        edit 
-        ? <input name="list-input" type="text" value={value} />
-        : value
-      }
+    <li>
+      <input 
+        name="list-checkbox" 
+        type="checkbox" 
+        checked={props.checked} />
+      <label>{value}</label>
     </li>  
   )
 
@@ -26,9 +25,13 @@ function ListItem(props) {
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <main>
       <h1>TODO List</h1>
-      <ListItem value={"test"}/>
+      <ul>
+        <ListItem value={"test1"} checked/>
+        <ListItem value={"test2"}/>
+        <ListItem value={"test3"}/>
+    </ul>
     </main>
   )
 }

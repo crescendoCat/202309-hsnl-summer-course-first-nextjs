@@ -2,16 +2,36 @@
 import { useState, useEffect } from "react";
 
 function ListItem(props) {
+  const [edit, setEdit] = useState(false);
+  const [value, setValue] = useState(props.value);
+
+  const handleChange=(event) => {
+    setValue(event.target.value);
+  }
+
   return(
-    <li>
+    <li onClick={() => setEdit(true)}>
       <input 
         name="list-checkbox" 
         type="checkbox" 
         checked={props.checked} />
-      <label>{props.value}</label>
+      {
+        edit
+        ? <input
+            autoFocus
+            name="list-input"
+            type="text"
+            value={value}
+            onChange={handleChange}
+            onBlur={() => setEdit(false)}>
+          </input>
+        : <label>{value}</label>
+      }
     </li>  
   )
+
 }
+
 
 function TodoList() {
   return (
@@ -24,7 +44,6 @@ function TodoList() {
 }
 
 export default function Home() {
-  
   return (
     <main>
       <h1>TODO List</h1>

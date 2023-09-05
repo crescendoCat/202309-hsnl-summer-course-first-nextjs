@@ -1,8 +1,8 @@
-import styles from './page.module.css'
-
+"use client";
 export default function Home() {
+  
   return (
-    <main className={styles.main}>
+    <main>
       <h1>TODO List</h1>
     </main>
   )

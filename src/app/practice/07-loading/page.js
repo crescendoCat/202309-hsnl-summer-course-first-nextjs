@@ -1,5 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { 
+  fetchTodoList,
+  updateTodoList
+} from "@/api/practice/06-fetch-and-update";
+import styles from "./page.module.css";
 
 function ListItem(props) {
   const [edit, setEdit] = useState(false);
@@ -36,7 +41,8 @@ function ListItem(props) {
 }
 
 function TodoList() {
-  const [list, setList]  = useState(["test", "test2", "test3"]);
+  const [list, setList]  = useState(null);
+  const [loading, setLoading] = useState(false);
   const handleChange = (idx, v) => {
     let newList = [...list];
     newList[idx] = v;
@@ -46,10 +52,29 @@ function TodoList() {
     let newList = [...list, ""];
     setList(newList);
   }
+
+  useEffect(() => {
+    setLoading(true);
+    fetchTodoList().then(data => {
+      // data會長這樣:
+      // {"listItems":["test1", "test2", "..."]}
+      setList(data.listItems);
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    if(list !== null);
+      updateTodoList(list).then(() => {
+        setLoading(false);
+      })
+  }, [list]);
   return (
     <ul>
+      <div className={`${styles.loading} ${loading ? styles.active : ""}`}>loading...</div>
       {
-        list.map((item, idx) => 
+        list && list.map((item, idx) => 
           <ListItem 
             key={`list-item-${idx}`}
             value={item} 
@@ -65,9 +90,10 @@ export default function Home() {
   
   return (
     <main>
-      <small>04-create-item-button</small>
+      <small>07-loading</small>
       <h1>TODO List</h1>
       <TodoList />
+
     </main>
   )
 }

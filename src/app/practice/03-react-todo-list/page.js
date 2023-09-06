@@ -27,6 +27,7 @@ export default function Home() {
   
   return (
     <main>
+      <small>03-react-todo-list</small>
       <h1>TODO List</h1>
       <TodoList />
     </main>
